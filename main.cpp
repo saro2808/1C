@@ -70,7 +70,7 @@ int main() {
 
     std::vector<int> current_level_course_count(level_count);
     //std::vector<int> used_in_current_level_count;
-    int used_count = 0;
+    int used_count = 0; // used.size()
 
     // read table
     std::string s;
@@ -95,15 +95,18 @@ int main() {
     }
 
     // selected three courses of level 3
+    std::cout << "Input your selected 3 courses of level 3" << std::endl;
     std::string selected_courses_3[3];
     for (int i = 0; i < 3; ++i) {
         std::cin >> selected_courses_3[i];
     }
+    std::cout << "Input your selected course of level 5" << std::endl;
     std::string selected_course_5;
     // and one of level 5
     std::cin >> selected_course_5;
 
     // minimum number of courses for each semester
+    std::cout << "What is the minimum number of courses each semester - " std::endl;
     int minimum_number;
     std::cin >> minimum_number;
 
@@ -152,9 +155,10 @@ int main() {
         func(current_level_course_count[k], minimum_courses - used_count, &index, k);
     }
 
+    std::cout << "Needed courses:" << std::endl;
     int ind = 0;
-    for (auto str : used) {
-        std::cout << "Course " << ind << " " << str.str << std::endl;
+    for (auto course : used) {
+        std::cout << "Course " << ind << " " << course.str << std::endl;
     }
 
     return 0;
