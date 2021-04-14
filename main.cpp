@@ -4,21 +4,22 @@
 #include <algorithm>
 
 
-struct Item {
+struct Course {
     std::string str;
     bool used;
 };
 
-std::vector<std::vector<Item>> book;
-std::vector<Item> used;
+std::vector<std::vector<Course>> book;
+std::vector<Course> used;
 
 int str_intersect(std::string s1, std::string s2) {
     int i = 0;
-    for (; ; ++i) {
+    for (; i < s1.size() && i < s2.size(); ++i) {
         if (s1[i] != s2[i]) {
             return i;
         }
     }
+    return 0;
 }
 
 bool str_compare(std::string s1, std::string s2) {
@@ -41,8 +42,7 @@ int get_index(int elem, std::vector<int> vec) {
 int get_kth_index(std::vector<int> vec, int k) {
     std::vector<int> old_vec = vec;
     std::sort(vec.begin(), vec.end());
-    int ret = get_index(vec[vec.size() - k - 1], old_vec);
-    return ret;
+    return get_index(vec[vec.size() - k - 1], old_vec);
 }
 
 void func(int lim1, int lim2, int *index, int k) {
@@ -56,17 +56,28 @@ void func(int lim1, int lim2, int *index, int k) {
 
 int main() {
     int sem_count;
+    std::cout << "How many semesters there should be - ";
     std::cin >> sem_count;
-    int max_level;
-    std::cin >> max_level;
-    std::vector<int> current_level_course_count(max_level);
+    std::cout << std::endl;
+
+    int level_count;
+    std::cout << "How many levels there should be - ";
+    std::cin >> level_count;
+    std::cout << std::endl;
+
+    std::vector<std::vector<Course>> temp_book(level_count);
+    book = temp_book;
+
+    std::vector<int> current_level_course_count(level_count);
     //std::vector<int> used_in_current_level_count;
     int used_count = 0;
+
     // read table
     std::string s;
-    for (int i = 0; i <= max_level; ++i) {
-        std::cout << "How many courses are available for " << i << " - ";
+    for (int i = 0; i < level_count; ++i) {
+        std::cout << "How many courses are available for level " << i << " - ";
         std::cin >> current_level_course_count[i];
+        std::cout << "List them" << std::endl;
         for (int j = 0; j < current_level_course_count[i]; ++j) {
             std::cin >> s;
             book[i].push_back({s, false});
@@ -74,8 +85,8 @@ int main() {
     }
 
     // priorities of level 2
-    std::cout << "Input your list of priorities of level 2 courses";
-    //std::vector<Item> priority_vector(current_level_course_count[2]);
+    std::cout << "Input your list of priorities of level 2 courses" << std::endl;
+    //std::vector<Course> priority_vector(current_level_course_count[2]);
     std::vector<int> priority_vector(current_level_course_count[2]);
     int priority;
     for (int i = 0; i < current_level_course_count[2]; ++i) {
@@ -137,7 +148,7 @@ int main() {
         ++i;
     }
 
-    for (int k = 3; k < max_level; ++k) {
+    for (int k = 3; k < level_count; ++k) {
         func(current_level_course_count[k], minimum_courses - used_count, &index, k);
     }
 
