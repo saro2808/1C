@@ -71,7 +71,6 @@ int main() {
     courses_by_levels = temp_book;
 
     std::vector<int> current_level_course_count(level_count);
-    //std::vector<int> used_in_current_level_count;
     int used_count = 0; // used.size()
 
     // read table
@@ -88,7 +87,6 @@ int main() {
 
     // priorities of level 2
     std::cout << "Input your list of priorities of level 2 courses" << std::endl;
-    //std::vector<Course> priority_vector(current_level_course_count[2]);
     std::vector<int> priority_vector(current_level_course_count[2]);
     int priority;
     for (int i = 0; i < current_level_course_count[2]; ++i) {
@@ -114,44 +112,36 @@ int main() {
 
     int minimum_courses = minimum_number * sem_count;
 
-    std::cout << "Checkpoint 1\n";
-
     // dependencies of selected courses of level 3
     for (int i = 0; i < 3; ++i) {
         std::string course_name = selected_courses_3[i];
         for (int k = 0; k < 3; k++) {
             for (int j = 0; j < current_level_course_count[k]; ++j) {
-                if (str_compare(courses_by_levels[k][j].str, course_name)) {
+                if (str_compare(courses_by_levels[k][j].str, course_name)
+                && !courses_by_levels[k][j].used) {
                     courses_by_levels[k][j].used = true;
                     used.push_back(courses_by_levels[k][j]);
-                    //++used_in_current_level_count[k];
                     ++used_count;
                 }
             }
         }
     }
 
-    std::cout << "Checkpoint 2\n";
-
     for (int k = 0; k < 5; ++k) {
         for (int j = 0; j < current_level_course_count[k]; ++j) {
-            if (str_compare(courses_by_levels[k][j].str, selected_course_5)) {
+            if (str_compare(courses_by_levels[k][j].str, selected_course_5)
+                && !courses_by_levels[k][j].used) {
                 courses_by_levels[k][j].used = true;
                 used.push_back(courses_by_levels[k][j]);
-                //++used_in_current_level_count[k];
                 ++used_count;
             }
         }
     }
 
-    std::cout << "Checkpoint 3\n";
-
     int index = 0;
     for (int k = 0; k < 2; ++k) {
         func(current_level_course_count[k], minimum_courses - used_count, &index, k);
     }
-
-    std::cout << "Checkpoint 4\n";
 
     for (int i = 0; i < current_level_course_count[2] && index < minimum_courses - used_count; ++index) {
         int kth_max_index = get_kth_index(priority_vector, i);
@@ -159,12 +149,9 @@ int main() {
         && kth_max_index > -1
         && !courses_by_levels[2][kth_max_index].used) {
             courses_set.insert(courses_by_levels[2][kth_max_index].str);
-            std::cout << "iter " << i << "\n";
         }
         ++i;
     }
-
-    std::cout << "Checkpoint 5\n";
 
     for (int k = 3; k < level_count; ++k) {
         func(current_level_course_count[k], minimum_courses - used_count, &index, k);
