@@ -106,7 +106,7 @@ int main() {
     std::cin >> selected_course_5;
 
     // minimum number of courses for each semester
-    std::cout << "What is the minimum number of courses each semester - " std::endl;
+    std::cout << "What is the minimum number of courses each semester - " << std::endl;
     int minimum_number;
     std::cin >> minimum_number;
 
@@ -159,6 +159,7 @@ int main() {
     int ind = 0;
     for (auto course : used) {
         std::cout << "Course " << ind << " " << course.str << std::endl;
+        ++ind;
     }
 
     return 0;
